@@ -12,7 +12,7 @@ class Exhanage_model(BaseModel):
     secret :str
 
 class BotArbitraggio:
-    def __init__(self, exchanges_configs:List[Exhanage_model], soglia_minima:float = 0.5):
+    def __init__(self, exchanges_configs:List[Exhanage_model], soglia_minima:float = 0.1):
         self.exchanges = {}
         self.soglia_minima = soglia_minima
         self.inizializza_exchanges(exchanges_configs)
@@ -38,7 +38,8 @@ class BotArbitraggio:
                 order_book = exchange.fetch_order_book(symbol)
                 order_books[exchange_name] = {
                 "bid" : order_book["bids"][0] if order_book["bids"] else [0,0], #comprare
-                "ask" :order_book["asks"][0] if order_book["asks"] else [float("inf"), 0] #vendere
+                "ask" :order_book["asks"][0] if order_book["asks"] else [float("inf"), 0],
+               "symbol" : symbol #vendere
 
                 }
         except Exception as e:
@@ -58,7 +59,8 @@ class BotArbitraggio:
                         continue
 
                     prezzo_acquisto = order_books[buy_exchange]["bid"][0]
-                    prezzo_vendita = order_books[buy_exchange]["ask"][0]
+                    prezzo_vendita = order_books[sell_exchange]["ask"][0]
+                    symbol = order_books[buy_exchange]["symbol"]
                     print(prezzo_vendita, prezzo_acquisto)
 
                     if prezzo_acquisto > 0 and prezzo_vendita > prezzo_acquisto:
@@ -76,13 +78,46 @@ class BotArbitraggio:
                             "sell_price" : prezzo_vendita,
                             "profit_percentage" : profitto_netto,
                             "buy_volume" : order_books[buy_exchange]["bid"][1],
-                            "sell_volume" : order_books[sell_exchange]["ask"][1]
+                            "sell_volume" : order_books[sell_exchange]["ask"][1],
+                            "symbol": symbol
 
                             }
 
         except Exception as e :
             print(str(e))
         return miglior_opportunita
+
+    def esegui_arbitraggio(self, opportunita: Dict, quantita : float, *args)->bool | None:
+
+        try:
+            print("---------------------------")
+            print(f"hai comprato {opportunita['symbol']} da {self.exchanges[opportunita['buy_exchange']]} per {self.exchanges[opportunita['buy_price']]}")
+            print(f"hai venduto {opportunita['symbol']} da {self.exchanges[opportunita['sell_exchange']]} per {self.exchanges[opportunita['buy_price']]}")
+            print("---------------------------")
+            #buy_order = self.exchanges[opportunita["buy_exchange"]].create_market_buy_order(
+            #symbol = opportunita["symbol"],
+            #amount=quantita
+            #)
+
+            #sell_order = self.exchanges[opportunita["sell_exchange"]].create_market_buy_order(
+            #symbol = opportunita["symbol"],
+            #amount=quantita
+            #)
+        except Exception as e:
+            print(str(e))
+
+    def monitora_opportunita_arbitraggio(self, symbols : List[str], interval:float = 0.5)->bool:
+        while True:
+            for symbol in symbols:
+                order_books = self.ottieni_order_books(symbol)
+                opportunita = self.calcola_opprtunita_arbitraggio(order_books)
+                if opportunita:
+                    opportunita["symbol"] = symbol
+                    print(opportunita)
+                    self.esegui_arbitraggio(opportunita, 5)
+
+
+
 
 
 
@@ -101,4 +136,4 @@ bot = BotArbitraggio(exchanges)
 
 
 order_books = bot.ottieni_order_books('BTC/USD')
-print(bot.calcola_opprtunita_arbitraggio(order_books))
+print(bot.monitora_opportunita_arbitraggio(['BTC/USD', 'LTC/USDT']))
