@@ -1,6 +1,6 @@
-def main():
-    print("Hello from trading-bot!")
+from arbitraggio import BotArbitraggio
+from utils import *
 
 
 if __name__ == "__main__":
-    main()
+    pass

@@ -1,0 +1,12 @@
+[
+    {
+        "name" : "cryptocom",
+        "api_key" : "x", 
+        "secret" : 2323
+    },
+    {
+        "name" : "binance", 
+        "api_key" : "x", 
+        "secret" : 2323
+    }
+]

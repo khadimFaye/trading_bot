@@ -131,9 +131,9 @@ exchanges = [
 Exhanage_model(**{"name" : "cryptocom", "api_key" : "x", "secret" : secrets.token_hex(32)}),
 Exhanage_model(**{"name" : "binance", "api_key" : "x", "secret" : secrets.token_hex(32)}),
 ]
-bot = BotArbitraggio(exchanges)
+#bot = BotArbitraggio(exchanges)
 
 
 
-order_books = bot.ottieni_order_books('BTC/USD')
-print(bot.monitora_opportunita_arbitraggio(['BTC/USD', 'LTC/USDT']))
+#order_books = bot.ottieni_order_books('BTC/USD')
+#print(bot.monitora_opportunita_arbitraggio(['BTC/USD', 'LTC/USDT']))
