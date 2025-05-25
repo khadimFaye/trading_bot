@@ -1,12 +1,15 @@
 [
+   
+   
+    
     {
-        "name" : "cryptocom",
+        "name" : "kraken", 
         "api_key" : "x", 
-        "secret" : 2323
+        "secret" : ""
     },
     {
-        "name" : "binance", 
+        "name" : "bitfinex", 
         "api_key" : "x", 
-        "secret" : 2323
+        "secret" : ""
     }
 ]
