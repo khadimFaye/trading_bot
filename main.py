@@ -4,13 +4,6 @@ import argparse
 import sys
 from typing import List, Dict
 
-
-
-
-
-
-
-
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Bot Arbitraggio')

@@ -12,7 +12,7 @@ def get_exchanges(exchange_name: Optional[str]=None)->List[Dict] | Dict:
         for exchange in exchanges:
            
             if exchange["name"] == name:
-                print(type(exchange))
+                #print(type(exchange))
                 return exchange
         return {}
         

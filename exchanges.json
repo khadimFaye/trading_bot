@@ -1,15 +1,15 @@
 [
-   
-   
-    
+
+
     {
         "name" : "kraken", 
-        "api_key" : "x", 
-        "secret" : ""
+        "api_key" : null, 
+        "secret" : null
     },
     {
         "name" : "bitfinex", 
-        "api_key" : "x", 
-        "secret" : ""
+        "api_key" : null, 
+        "secret" : null
     }
+   
 ]
